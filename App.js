@@ -9,8 +9,13 @@ export default function App() {
 
   const [courseGoals, setCourseGoals] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
-  
+  console.log('RE_RENDERING COMPONENT')
+  console.log(courseGoals)
+  console.log('sanz')
   const addGoal = goalInput => {
+    if (!goalInput || goalInput.length === 0) {
+      return;
+    }
     // setCourseGoals([...courseGoals, goalInput])
     setCourseGoals(currentGoals => [
       ...currentGoals, 
@@ -20,6 +25,8 @@ export default function App() {
   }
 
   const removeGoal = goalId => {
+    console.log('DELETED = '+ goalId)
+    console.log(courseGoals)
     setCourseGoals(currentGoals => {
       return currentGoals.filter((goal) => goal.id !== goalId )
     })
