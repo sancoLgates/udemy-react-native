@@ -1,37 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, View, Button, FlatList } from 'react-native';
+
+import GoalItem from './components/GoalItem';
+import GoalInput from './components/GoalInput';
 
 export default function App() {
 
-  const [enteredGoal, setEnteredGoal] = useState('');
   const [courseGoals, setCourseGoals] = useState([]);
-
-  const goalInput = (enteredText) => {
-    setEnteredGoal(enteredText)
-  }
-  const addGoal = () => {
-    console.log(enteredGoal)
-    // setCourseGoals([...courseGoals, enteredGoal])
+  const [isAddMode, setIsAddMode] = useState(false);
+  
+  const addGoal = goalInput => {
+    // setCourseGoals([...courseGoals, goalInput])
     setCourseGoals(currentGoals => [
       ...currentGoals, 
-      { id: Math.random().toString(), value: enteredGoal }
+      { id: Math.random().toString(), value: goalInput }
     ])
+    setIsAddMode(false)
+  }
+
+  const removeGoal = goalId => {
+    setCourseGoals(currentGoals => {
+      return currentGoals.filter((goal) => goal.id !== goalId )
+    })
+  }
+
+  const cancelGoal = () => {
+    setIsAddMode(false)
   }
 
   return (
     <View style={styles.screen}>
-      <View
-        style={styles.inputContainer}
-      >
-        <TextInput 
-          placeholder="Course Goal" 
-          style={styles.input} 
-          onChangeText={goalInput} 
-          value={enteredGoal}
-        />
-        <Button title="Add" onPress={addGoal} />
-      </View>
+      <Button title="Add New Goal" onPress={() => setIsAddMode(true)} />
+      <GoalInput visible={isAddMode} onAddGoal={addGoal} onCancel={cancelGoal} />
       {/* <ScrollView>
         {courseGoals.map((goal => 
           <View key={goal} style={styles.listItem}>
@@ -39,13 +40,21 @@ export default function App() {
           </View>
         ))}
       </ScrollView> */}
+      {/* FlatList better performance than ScrollView */}
       <FlatList 
         keyExtractor={(item, index) => item.id}
         data={courseGoals}
-        renderItem={itemData => (
-          <View style={styles.listItem}>
-            <Text>{itemData.item.value}</Text>
-          </View>
+        renderItem={itemData => ( 
+          <GoalItem 
+            id={itemData.item.id}
+            title={itemData.item.value}
+            onDelete={removeGoal}
+            // onDelete={() => console.log(itemData.item.id, itemData.item.value)}
+          />
+
+          // <View style={styles.listItem}>
+          //   <Text>{itemData.item.value}</Text>
+          // </View>
         )}
       />
     </View>
@@ -55,25 +64,6 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     padding: 50
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  input: { 
-    borderColor: 'black', 
-    borderWidth: 2, 
-    padding: 10, 
-    width: '80%' 
-  },
-  listItem: {
-    padding: 10,
-    margin: 10,
-    backgroundColor: '#ccc',
-    borderColor: 'black',
-    borderWidth: 1
-
   }
 })
 
