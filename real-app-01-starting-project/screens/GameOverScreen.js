@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, Image } from "react-native";
 
 import BodyText from "../component/BodyText";
 import TitleText from "../component/TitleText";
+import MainButton from "../component/MainButton";
 
 const GameOverScreen = (props) => {
   return (
@@ -32,7 +33,8 @@ const GameOverScreen = (props) => {
       </Text> */}
       {/* <BodyText>Number of Rounds: {props.roundsNumber}</BodyText> */}
       {/* <BodyText>Number was: {props.userNumber}</BodyText> */}
-      <Button title="New Game" onPress={props.onRestart} />
+      <MainButton onPress={props.onRestart}>New Game</MainButton>
+      {/* <Button title="New Game" onPress={props.onRestart} /> */}
     </View>
   );
 };
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
   },
   resultText: {
     textAlign: "center",
+    paddingBottom: 20,
   },
   highlight: {
     color: "red",
