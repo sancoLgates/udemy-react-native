@@ -102,6 +102,37 @@ const GameScreen = (props) => {
   //   console.log("< 600");
   // }
 
+  let gameControls = (
+    <React.Fragment>
+      <NumberContainer>{currentGuess}</NumberContainer>
+      <Card
+        style={{
+          ...styles.buttonContainer,
+          marginTop: availableDeviceHeight > 600 ? 20 : 5,
+        }}
+        // style={
+        //   Dimensions.get("window").height > 600
+        //     ? styles.buttonContainer
+        //     : styles.buttonContainerSmall
+        // }
+      >
+        {/* <Button title="LOWER" onPress={nextGuessHandler.bind(this, "lower")} />
+        <Button
+          title="GREATER"
+          onPress={nextGuessHandler.bind(this, "greater")}
+        /> */}
+        <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
+          {/* <Ionicons name="md-left" size={24} color="white" /> */}
+          <AntDesign name="arrowleft" size={24} color="white" />
+        </MainButton>
+        <MainButton onPress={nextGuessHandler.bind(this, "greater")}>
+          {/* <Ionicons name="md-right" size={24} color="white" /> */}
+          <AntDesign name="arrowright" size={24} color="white" />
+        </MainButton>
+      </Card>
+    </React.Fragment>
+  );
+
   if (availableDeviceHeight < 500) {
     return (
       <View style={styles.screen}>
@@ -130,28 +161,7 @@ const GameScreen = (props) => {
   return (
     <View style={styles.screen}>
       <Text style={DefaultStyle.title}>Opponent's Guess</Text>
-      <NumberContainer>{currentGuess}</NumberContainer>
-      <Card
-        style={
-          Dimensions.get("window").height > 600
-            ? styles.buttonContainer
-            : styles.buttonContainerSmall
-        }
-      >
-        {/* <Button title="LOWER" onPress={nextGuessHandler.bind(this, "lower")} />
-        <Button
-          title="GREATER"
-          onPress={nextGuessHandler.bind(this, "greater")}
-        /> */}
-        <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
-          {/* <Ionicons name="md-left" size={24} color="white" /> */}
-          <AntDesign name="arrowleft" size={24} color="white" />
-        </MainButton>
-        <MainButton onPress={nextGuessHandler.bind(this, "greater")}>
-          {/* <Ionicons name="md-right" size={24} color="white" /> */}
-          <AntDesign name="arrowright" size={24} color="white" />
-        </MainButton>
-      </Card>
+      {gameControls}
       <View style={styles.listContainer}>
         {/* <ScrollView contentContainerStyle={styles.list}>
           {pastGuesses.map((guess, index) =>
@@ -179,9 +189,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     // marginTop: 20,
-    marginTop: Dimensions.get("window").height > 600 ? 20 : 5,
+    // marginTop: Dimensions.get("window").height > 600 ? 20 : 5,
     width: 400,
-    maxWidth: "80%",
+    maxWidth: "90%",
   },
   buttonContainerSmall: {
     flexDirection: "row",

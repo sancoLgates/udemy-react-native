@@ -24,7 +24,7 @@ const StartGameScreen = (props) => {
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
   const [buttonWidth, setButtonWidth] = useState(
-    Dimensions.get("window").width
+    Dimensions.get("window").width / 4
   ); // listening to orientation changes, in case user change portrait to landscape or vice versa
 
   const numberInputHandler = (inputText) => {
@@ -33,11 +33,12 @@ const StartGameScreen = (props) => {
 
   const resetInputHandler = () => {
     setEnteredValue("");
+    setConfirmed(false);
   };
 
   useEffect(() => {
     const updateLayout = () => {
-      // console.log(Dimensions.get("window"), Dimensions.get("window").width / 4);
+      console.log(Dimensions.get("window"), Dimensions.get("window").width / 4);
       setButtonWidth(Dimensions.get("window").width / 4);
     };
     Dimensions.addEventListener("change", updateLayout);
@@ -77,7 +78,7 @@ const StartGameScreen = (props) => {
 
   return (
     <ScrollView>
-      <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={30}>
+      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30}>
         <TouchableWithoutFeedback
           onPress={() => {
             Keyboard.dismiss();
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
   },
   // button: {
   //   width: Dimensions.get("window").width / 4, // this is only calculated when the apps start
