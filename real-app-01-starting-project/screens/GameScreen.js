@@ -7,6 +7,7 @@ import {
   Alert,
   ScrollView,
   FlatList,
+  Dimensions,
 } from "react-native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
@@ -37,10 +38,29 @@ const GameScreen = (props) => {
   const initialGuess = generateRandomBetween(1, 100, props.userChoice);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
+  const [availableDeviceWidth, setAvailableDeviceWidth] = useState(
+    Dimensions.get("window").width
+  );
+  const [availableDeviceHeight, setAvailableDeviceHeight] = useState(
+    Dimensions.get("window").height
+  );
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
   const { userChoice, onGameOver } = props;
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setAvailableDeviceWidth(Dimensions.get("window").width);
+      setAvailableDeviceHeight(Dimensions.get("window").height);
+    };
+
+    Dimensions.addEventListener("change", updateLayout);
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  });
 
   useEffect(() => {
     if (currentGuess === userChoice) {
@@ -76,11 +96,48 @@ const GameScreen = (props) => {
     ]);
   };
 
+  // if (Dimensions.get("window").height > 600) {
+  //   console.log("> 600", Dimensions.get("window"));
+  // } else {
+  //   console.log("< 600");
+  // }
+
+  if (availableDeviceHeight < 500) {
+    return (
+      <View style={styles.screen}>
+        <Text style={DefaultStyle.title}>Opponent's Guess</Text>
+        <View style={styles.controls}>
+          <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
+            <AntDesign name="arrowleft" size={24} color="white" />
+          </MainButton>
+          <NumberContainer>{currentGuess}</NumberContainer>
+          <MainButton onPress={nextGuessHandler.bind(this, "greater")}>
+            <AntDesign name="arrowright" size={24} color="white" />
+          </MainButton>
+        </View>
+        <View style={styles.listContainer}>
+          <FlatList
+            keyExtractor={(item) => item}
+            data={pastGuesses}
+            renderItem={renderListItem.bind(this, pastGuesses.length)}
+            contentContainerStyle={styles.list}
+          />
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.screen}>
       <Text style={DefaultStyle.title}>Opponent's Guess</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <Card style={styles.buttonContainer}>
+      <Card
+        style={
+          Dimensions.get("window").height > 600
+            ? styles.buttonContainer
+            : styles.buttonContainerSmall
+        }
+      >
         {/* <Button title="LOWER" onPress={nextGuessHandler.bind(this, "lower")} />
         <Button
           title="GREATER"
@@ -121,13 +178,29 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 20,
-    width: 300,
+    // marginTop: 20,
+    marginTop: Dimensions.get("window").height > 600 ? 20 : 5,
+    width: 400,
     maxWidth: "80%",
+  },
+  buttonContainerSmall: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    // marginTop: 20,
+    marginTop: Dimensions.get("window").height > 600 ? 20 : 5,
+    backgroundColor: "cyan",
+    width: 400,
+    maxWidth: "80%",
+  },
+  controls: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: "80%",
   },
   listContainer: {
     flex: 1,
-    width: "60%",
+    width: Dimensions.get("window").width > 350 ? "60%" : "80%",
   },
   list: {
     flexGrow: 1,
