@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "grey",
     overflow: "hidden",
-    marginVertical: Dimensions.get("window").height / 20,
+    marginVertical: Dimensions.get("window").height / 30,
   },
   resultContainer: {
     marginHorizontal: 30,
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
   },
   resultText: {
     textAlign: "center",
-    paddingBottom: 20,
-    fontSize: Dimensions.get("window").height < 400 ? 16 : 14,
+    // paddingBottom: 20,
+    fontSize: Dimensions.get("window").height < 400 ? 16 : 20,
   },
   highlight: {
     color: "red",

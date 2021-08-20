@@ -1,6 +1,6 @@
 // Guess Number Game, Lower or Greater
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 import * as Font from "expo-font";
 // import { AppLoading } from "expo";
 // expo install expo-app-loading
@@ -64,10 +64,10 @@ export default function App() {
   }
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
       <Header title="Guess a Number" sanztitle="sanz second title" />
       {content}
-    </View>
+    </SafeAreaView>
   );
 }
 
