@@ -28,9 +28,9 @@ export default function App() {
   return <MealsNavigator />;
 }
 
-// const styles = StyleSheet.create({
-//   text: {
-//     fontFamily: "open-sans-bold",
-//     // fontSize: 20,
-//   },
-// });
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: "open-sans-bold",
+    // fontSize: 20,
+  },
+});
