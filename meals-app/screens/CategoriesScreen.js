@@ -21,7 +21,13 @@ const CategoriesScreen = (props) => {
       <TouchableOpacity
         style={styles.gridItem}
         onPress={() => {
-          props.navigation.navigate({ routeName: "CategoryMeals" });
+          props.navigation.navigate({
+            routeName: "CategoryMeals",
+            params: {
+              categoryId: itemData.item.id,
+              categoryName: itemData.item.title,
+            },
+          });
         }}
       >
         <View>
@@ -53,7 +59,7 @@ const CategoriesScreen = (props) => {
   );
 };
 
-// NOT WORKING YET
+// RELOAD TO SEE THE CHANGES IN IOS CASE
 CategoriesScreen.navigationOptions = {
   headerTitle: "Meal Categories",
   headerStyle: {
@@ -61,9 +67,6 @@ CategoriesScreen.navigationOptions = {
   },
   headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
 };
-
-console.log("CategoriesScreen", CategoriesScreen.navigationOptions);
-// NOT WORKING YET
 
 const styles = StyleSheet.create({
   screen: {
