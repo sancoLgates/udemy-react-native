@@ -18,7 +18,7 @@ const MealItem = (props) => {
               style={styles.bgImage}
             >
               <View style={styles.titleContainer}>
-                <Text style={styles.title} numberOfLines="1">
+                <Text style={styles.title} numberOfLines={1}>
                   {props.title}
                 </Text>
               </View>
