@@ -3,5 +3,8 @@
 		{
 			"path": "/Users/Admin/Sites/udemy-react-native"
 		}
-	]
+  ],
+  "settings": {
+    "editor.tabSize": 2
+  }
 }
